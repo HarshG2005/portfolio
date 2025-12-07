@@ -7,18 +7,25 @@ import {
   Code2,
   Cpu,
   Database,
-  Terminal
+  Terminal,
+  ChevronDown,
+  Sparkles
 } from 'lucide-react';
 
 // --- DATA FROM RESUME ---
 const PROFILE = {
   name: "Harsh Goutam",
   title: "Full Stack Developer & AI Enthusiast",
-  about: "I am a Computer Science student at BMS Institute of Technology and Management, Bengaluru (2027). I specialize in building AI-driven applications and scalable web solutions, with a strong foundation in Data Structures and Algorithms.",
+  aboutHighlights: [
+    "Building AI-driven applications",
+    "Scalable web solutions",
+    "Strong DSA foundation"
+  ],
+  longAbout: "I am a Computer Science student at BMS Institute of Technology and Management, Bengaluru (2027), specializing in the intersection of modern web technologies and artificial intelligence.",
   email: "harshvam@gmail.com",
   github: "https://github.com/HarshG2005",
   leetcode: "https://leetcode.com/u/PafrCpM6tD/",
-  resumeLink: "/resume.pdf" // Make sure to put your PDF in the public folder
+  resumeLink: "/resume.pdf"
 };
 
 const SKILLS = {
@@ -32,24 +39,24 @@ const PROJECTS = [
   {
     title: "Edu-Saarathi",
     category: "AI-EdTech Platform",
-    description: "A comprehensive AI-assisted learning platform generating mind maps, MCQs, and summaries from user text using Google Gemini LLM. Features interactive visualizations and a hybrid routing backend.",
-    tech: ["React", "TypeScript", "Node.js", "Gemini API", "ShadCN"],
+    description: "A comprehensive AI-assisted learning platform generating mind maps, MCQs, and summaries from user text using Google Gemini LLM.",
+    tech: ["React", "TypeScript", "Node", "Gemini API"],
     repo: "https://github.com/HarshG2005/Edu-Saarathi",
     live: "https://web-production-ab87.up.railway.app/"
   },
   {
     title: "DATAVIS",
     category: "Intelligent EDA Tool",
-    description: "Automated data analytics tool transforming raw CSV/Excel datasets into interactive visualizations using NLP. Uses Node.js streams for high-performance parsing of large datasets.",
-    tech: ["React", "Express.js", "Gemini Pro", "Recharts", "Node Streams"],
+    description: "Automated data analytics tool transforming raw CSV/Excel datasets into interactive visualizations using NLP and Node.js streams.",
+    tech: ["React", "Express", "Gemini Pro", "Recharts"],
     repo: "https://github.com/HarshG2005/NL2VIS",
-    live: null // No live link mentioned in resume
+    live: null
   },
   {
     title: "NEURONAV",
     category: "RL Telemetry Dashboard",
-    description: "Real-time monitoring system for PPO agents in 3D environments. Uses WebSocket for low-latency streaming of agent POV and reward metrics during training.",
-    tech: ["Python", "Stable Baselines3", "WebSockets", "React"],
+    description: "Real-time monitoring system for PPO agents in 3D environments. Uses WebSocket for low-latency streaming of agent POV.",
+    tech: ["Python", "Stable Baselines3", "WebSockets"],
     repo: "https://github.com/HarshG2005/NeuroNav",
     live: null
   }
@@ -58,99 +65,140 @@ const PROJECTS = [
 // --- COMPONENTS ---
 
 const Section = ({ children, id, className = "" }: { children: React.ReactNode, id: string, className?: string }) => (
-  <section id={id} className={`py-20 px-6 md:px-20 max-w-7xl mx-auto ${className}`}>
+  <section id={id} className={`py-24 px-6 md:px-20 max-w-7xl mx-auto relative ${className}`}>
     {children}
   </section>
 );
 
 const Navbar = () => (
-  <nav className="fixed top-0 w-full bg-slate-950/80 backdrop-blur-md border-b border-slate-800 z-50">
-    <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-      <span className="text-xl font-bold text-blue-400">HG.</span>
-      <div className="hidden md:flex gap-8 text-sm font-medium text-slate-300">
-        <a href="#about" className="hover:text-blue-400 transition">About</a>
-        <a href="#skills" className="hover:text-blue-400 transition">Skills</a>
-        <a href="#projects" className="hover:text-blue-400 transition">Projects</a>
-        <a href="#contact" className="hover:text-blue-400 transition">Contact</a>
-      </div>
+  <motion.nav
+    initial={{ y: -100 }}
+    animate={{ y: 0 }}
+    transition={{ duration: 0.5 }}
+    className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4"
+  >
+    <div className="glass px-8 py-4 rounded-full flex items-center gap-8 text-sm font-medium text-slate-300">
+      <a href="#" className="text-white font-bold text-lg mr-4">HG.</a>
+      <a href="#about" className="hover:text-blue-400 transition hidden md:block">About</a>
+      <a href="#skills" className="hover:text-blue-400 transition hidden md:block">Skills</a>
+      <a href="#projects" className="hover:text-blue-400 transition hidden md:block">Projects</a>
+      <a href="#contact" className="hover:text-blue-400 transition hidden md:block">Contact</a>
+      <a href={PROFILE.github} target="_blank" rel="noreferrer" className="text-white hover:text-blue-400 transition">
+        <Github size={20} />
+      </a>
     </div>
-  </nav>
+  </motion.nav>
 );
 
 const Hero = () => (
-  <section className="min-h-screen flex flex-col justify-center px-6 md:px-20 max-w-7xl mx-auto pt-16">
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <span className="text-blue-400 font-medium tracking-wider">HELLO WORLD</span>
-      <h1 className="text-5xl md:text-7xl font-bold mt-4 mb-6 leading-tight">
-        I'm <span className="text-slate-100">{PROFILE.name}</span>.<br />
-        I build <span className="text-blue-500">intelligent</span> software.
-      </h1>
-      <p className="text-slate-400 text-lg max-w-2xl mb-8 leading-relaxed">
-        {PROFILE.about}
-      </p>
+  <section className="min-h-screen flex flex-col justify-center items-center px-6 relative overflow-hidden">
+    {/* Background Glow */}
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="flex gap-4">
-        <a href="#contact" className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">
+    <div className="max-w-4xl mx-auto text-center relative z-10">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-sm font-medium border border-blue-500/20 mb-6">
+          <Sparkles size={14} /> Available for hire
+        </span>
+        <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-6 text-white">
+          I build <span className="text-gradient">intelligent</span><br />
+          software solutions.
+        </h1>
+        <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+          {PROFILE.longAbout}
+        </p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+        className="flex flex-col md:flex-row gap-4 justify-center items-center"
+      >
+        <a href="#projects" className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-bold transition shadow-lg shadow-blue-500/25">
+          View Work
+        </a>
+        <a href="#contact" className="px-8 py-4 glass hover:bg-white/10 text-white rounded-full font-bold transition">
           Contact Me
         </a>
-        <a href={PROFILE.github} target="_blank" rel="noreferrer" className="px-6 py-3 border border-slate-700 hover:border-slate-500 text-slate-300 rounded-lg font-medium transition flex items-center gap-2">
-          <Github size={20} /> GitHub
-        </a>
-      </div>
+      </motion.div>
+    </div>
+
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1, duration: 1 }}
+      className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-500 animate-bounce"
+    >
+      <ChevronDown size={24} />
     </motion.div>
   </section>
 );
 
-const SkillCard = ({ title, skills, icon: Icon }: { title: string, skills: string[], icon: any }) => (
-  <div className="bg-slate-900/50 p-6 rounded-xl border border-slate-800 hover:border-blue-500/30 transition duration-300">
-    <div className="flex items-center gap-3 mb-4">
-      <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+const SkillCard = ({ title, skills, icon: Icon, delay }: { title: string, skills: string[], icon: any, delay: number }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay, duration: 0.5 }}
+    className="glass glass-hover p-8 rounded-2xl"
+  >
+    <div className="flex items-center gap-4 mb-6">
+      <div className="p-3 bg-blue-500/10 rounded-xl text-blue-400 ring-1 ring-blue-500/20">
         <Icon size={24} />
       </div>
-      <h3 className="text-xl font-semibold text-slate-100">{title}</h3>
+      <h3 className="text-xl font-bold text-white">{title}</h3>
     </div>
     <div className="flex flex-wrap gap-2">
       {skills.map((skill) => (
-        <span key={skill} className="px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded-full">
+        <span key={skill} className="px-3 py-1 bg-white/5 border border-white/5 text-slate-300 text-sm rounded-full hover:bg-white/10 transition cursor-default">
           {skill}
         </span>
       ))}
     </div>
-  </div>
+  </motion.div>
 );
 
-const ProjectCard = ({ project }: { project: typeof PROJECTS[0] }) => (
+const ProjectCard = ({ project, index }: { project: typeof PROJECTS[0], index: number }) => (
   <motion.div
-    whileHover={{ y: -5 }}
-    className="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 flex flex-col"
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay: index * 0.1, duration: 0.5 }}
+    whileHover={{ y: -5, scale: 1.02 }}
+    className="group relative glass rounded-2xl overflow-hidden flex flex-col h-full"
   >
-    <div className="p-6 flex-1 flex flex-col">
+    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition duration-500" />
+
+    <div className="p-8 relative z-10 flex flex-col h-full">
       <div className="flex justify-between items-start mb-4">
-        <div>
-          <span className="text-blue-400 text-sm font-medium">{project.category}</span>
-          <h3 className="text-2xl font-bold text-slate-100 mt-1">{project.title}</h3>
-        </div>
+        <span className="text-blue-400 text-xs font-bold tracking-wider uppercase bg-blue-500/10 px-2 py-1 rounded">
+          {project.category}
+        </span>
         <div className="flex gap-3">
           {project.repo && (
-            <a href={project.repo} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white transition">
+            <a href={project.repo} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white transition p-1 hover:bg-white/10 rounded-full">
               <Github size={20} />
             </a>
           )}
           {project.live && (
-            <a href={project.live} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-blue-400 transition">
+            <a href={project.live} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-blue-400 transition p-1 hover:bg-white/10 rounded-full">
               <ExternalLink size={20} />
             </a>
           )}
         </div>
       </div>
-      <p className="text-slate-400 mb-6 flex-1">{project.description}</p>
-      <div className="flex flex-wrap gap-2 mt-auto">
+
+      <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition">{project.title}</h3>
+      <p className="text-slate-400 mb-6 leading-relaxed flex-1">{project.description}</p>
+
+      <div className="flex flex-wrap gap-2 pt-4 border-t border-white/5">
         {project.tech.map((t) => (
-          <span key={t} className="text-xs font-mono text-blue-300 bg-blue-900/20 px-2 py-1 rounded">
+          <span key={t} className="text-xs font-medium text-slate-300 bg-slate-800/50 px-2 py-1 rounded">
             {t}
           </span>
         ))}
@@ -161,63 +209,84 @@ const ProjectCard = ({ project }: { project: typeof PROJECTS[0] }) => (
 
 function App() {
   return (
-    <div className="bg-slate-950 min-h-screen">
+    <div className="min-h-screen selection:bg-blue-500/30">
       <Navbar />
       <Hero />
 
-      <Section id="skills" className="bg-slate-950">
-        <h2 className="text-3xl font-bold mb-12 text-slate-100"><span className="text-blue-500">01.</span> Technical Arsenal</h2>
+      <Section id="skills">
+        <div className="flex flex-col items-center mb-16 text-center">
+          <span className="text-blue-400 font-medium mb-4">THE TOOLKIT</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-white">Technical <span className="text-gradient">Arsenal</span></h2>
+        </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <SkillCard title="Languages" skills={SKILLS.languages} icon={Code2} />
-          <SkillCard title="Web Dev" skills={SKILLS.web} icon={Terminal} />
-          <SkillCard title="AI / ML" skills={SKILLS.ml} icon={Cpu} />
-          <SkillCard title="Tools" skills={SKILLS.tools} icon={Database} />
+          <SkillCard title="Languages" skills={SKILLS.languages} icon={Code2} delay={0} />
+          <SkillCard title="Web Stacks" skills={SKILLS.web} icon={Terminal} delay={0.1} />
+          <SkillCard title="AI & ML" skills={SKILLS.ml} icon={Cpu} delay={0.2} />
+          <SkillCard title="Dev Tools" skills={SKILLS.tools} icon={Database} delay={0.3} />
         </div>
       </Section>
 
-      <Section id="projects">
-        <h2 className="text-3xl font-bold mb-12 text-slate-100"><span className="text-blue-500">02.</span> Featured Projects</h2>
+      <Section id="projects" className="bg-slate-950/30">
+        <div className="flex flex-col items-center mb-16 text-center">
+          <span className="text-blue-400 font-medium mb-4">SELECTED WORKS</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-white">Featured <span className="text-gradient">Projects</span></h2>
+        </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {PROJECTS.map((project, index) => (
-            <ProjectCard key={index} project={project} />
+            <ProjectCard key={index} project={project} index={index} />
           ))}
         </div>
       </Section>
 
       <Section id="education">
-        <h2 className="text-3xl font-bold mb-8 text-slate-100"><span className="text-blue-500">03.</span> Education & Achievements</h2>
-        <div className="bg-slate-900/30 border border-slate-800 p-8 rounded-2xl">
-          <div className="mb-6">
-            <h3 className="text-xl font-bold text-white">BMS Institute of Technology and Management</h3>
-            <p className="text-blue-400">Bachelor of Engineering (CSE) | 2023 - 2027</p>
-            <p className="text-slate-400 mt-2">CGPA: 8.85</p>
-          </div>
-          <hr className="border-slate-800 my-6" />
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Honors</h4>
-            <ul className="list-disc list-inside text-slate-400 space-y-2">
-              <li><strong className="text-slate-200">National Finalist</strong> - Code Red Hackathon 2025</li>
-              <li><strong className="text-slate-200">LeetCode</strong> - 150+ DSA Problems Solved</li>
-            </ul>
+        <div className="glass p-10 rounded-3xl border border-white/10 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
+
+          <div className="relative z-10 grid md:grid-cols-3 gap-10">
+            <div className="md:col-span-1">
+              <h2 className="text-3xl font-bold text-white mb-2">Education</h2>
+              <p className="text-slate-400">My academic journey and milestones.</p>
+            </div>
+            <div className="md:col-span-2 space-y-8">
+              <div>
+                <h3 className="text-2xl font-bold text-white">BMS Institute of Technology and Management</h3>
+                <p className="text-blue-400 font-medium mt-1">Bachelor of Engineering (CSE) | 2023 - 2027</p>
+                <p className="text-slate-400 mt-2">CGPA: 8.85</p>
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-white mb-4">Achievements</h4>
+                <ul className="space-y-3">
+                  <li className="flex items-center gap-3 text-slate-300">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                    <span><strong className="text-white">National Finalist</strong> - Code Red Hackathon 2025</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-slate-300">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                    <span><strong className="text-white">LeetCode</strong> - 150+ DSA Problems Solved</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </Section>
 
       <Section id="contact" className="mb-20">
-        <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6 text-slate-100">Get In Touch</h2>
-          <p className="text-slate-400 mb-8">
+        <div className="glass rounded-3xl p-12 text-center max-w-4xl mx-auto relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 pointer-events-none" />
+          <h2 className="text-4xl font-bold mb-6 text-white relative z-10">Ready to <span className="text-gradient">Collaborate?</span></h2>
+          <p className="text-slate-300 mb-10 text-lg max-w-2xl mx-auto leading-relaxed relative z-10">
             I'm currently looking for internships and new opportunities. Whether you have a question or just want to say hi, my inbox is always open.
           </p>
-          <a href={`mailto:${PROFILE.email}`} className="inline-flex items-center gap-2 px-8 py-4 bg-transparent border border-blue-500 text-blue-400 hover:bg-blue-500/10 rounded-lg font-bold transition">
+          <a href={`mailto:${PROFILE.email}`} className="relative z-10 inline-flex items-center gap-2 px-10 py-5 bg-white text-slate-900 hover:bg-slate-100 rounded-full font-bold transition">
             <Mail size={20} /> Say Hello
           </a>
         </div>
       </Section>
 
-      <footer className="py-8 text-center text-slate-600 text-sm border-t border-slate-900">
+      <footer className="py-8 text-center text-slate-600 text-sm">
         <p>Built with React, Tailwind & Framer Motion</p>
-        <p>&copy; {new Date().getFullYear()} Harsh Goutam</p>
+        <p className="mt-2 text-slate-700">&copy; {new Date().getFullYear()} Harsh Goutam</p>
       </footer>
     </div>
   );
