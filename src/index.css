@@ -85,3 +85,18 @@ body {
 .animate-ken-burns {
   animation: ken-burns 20s ease-in-out infinite alternate;
 }
+
+/* Gradient shift animation for intro splash name */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
