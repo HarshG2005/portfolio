@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const IntroSplash = () => {
     const navigate = useNavigate();
@@ -13,22 +14,31 @@ const IntroSplash = () => {
     };
 
     return (
-        <div
+        <motion.div
             onClick={handleClick}
-            className={`min-h-screen bg-black flex items-center justify-center cursor-pointer transition-opacity duration-700 ${isExiting ? 'opacity-0' : 'opacity-100'}`}
+            className="min-h-screen w-full bg-black flex items-center justify-center cursor-pointer"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isExiting ? 0 : 1 }}
+            transition={{ duration: 0.8 }}
         >
-            {/* Netflix-style name - solid red, bold italic */}
-            <h1
-                className={`text-5xl md:text-7xl lg:text-8xl font-black italic tracking-wide transition-all duration-700 select-none ${isExiting ? 'scale-125 opacity-0' : 'scale-100 opacity-100'}`}
+            {/* Netflix-style name - Bebas Neue font, exact Netflix red */}
+            <motion.h1
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{
+                    opacity: isExiting ? 0 : 1,
+                    scale: isExiting ? 1.1 : 1
+                }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
+                className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold uppercase tracking-wider select-none"
                 style={{
+                    fontFamily: "'Bebas Neue', 'Roboto Condensed', sans-serif",
                     color: '#E50914',
-                    fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
-                    textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                    letterSpacing: '0.05em'
                 }}
             >
                 HARSH GOUTAM
-            </h1>
-        </div>
+            </motion.h1>
+        </motion.div>
     );
 };
 
