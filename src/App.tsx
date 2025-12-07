@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { animate, stagger, onScroll } from 'animejs';
 import ParticleBackground from './components/ParticleBackground';
 import {
   Github,
@@ -141,8 +140,14 @@ const Hero = () => (
   </section>
 );
 
-const SkillCard = ({ title, skills, icon: Icon }: { title: string, skills: string[], icon: any }) => (
-  <div className="skill-card glass glass-hover p-8 rounded-2xl opacity-0 translate-y-8">
+const SkillCard = ({ title, skills, icon: Icon, delay }: { title: string, skills: string[], icon: any, delay: number }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-100px" }}
+    transition={{ delay, duration: 0.6, ease: "easeOut" }}
+    className="glass glass-hover p-8 rounded-2xl"
+  >
     <div className="flex items-center gap-4 mb-6">
       <div className="p-3 bg-blue-500/10 rounded-xl text-blue-400 ring-1 ring-blue-500/20">
         <Icon size={24} />
@@ -156,11 +161,18 @@ const SkillCard = ({ title, skills, icon: Icon }: { title: string, skills: strin
         </span>
       ))}
     </div>
-  </div>
+  </motion.div>
 );
 
-const ProjectCard = ({ project }: { project: typeof PROJECTS[0] }) => (
-  <div className="project-card group relative glass rounded-2xl overflow-hidden flex flex-col h-full opacity-0 translate-y-12">
+const ProjectCard = ({ project, index }: { project: typeof PROJECTS[0], index: number }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-100px" }}
+    transition={{ delay: index * 0.15, duration: 0.6, ease: "easeOut" }}
+    whileHover={{ y: -8, scale: 1.02 }}
+    className="group relative glass rounded-2xl overflow-hidden flex flex-col h-full"
+  >
     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition duration-500" />
 
     <div className="p-8 relative z-10 flex flex-col h-full">
@@ -193,62 +205,10 @@ const ProjectCard = ({ project }: { project: typeof PROJECTS[0] }) => (
         ))}
       </div>
     </div>
-  </div>
+  </motion.div>
 );
 
 function App() {
-  const skillsGridRef = useRef<HTMLDivElement>(null);
-  const projectsGridRef = useRef<HTMLDivElement>(null);
-  const educationRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Skills Section: Staggered pop-in animation on scroll
-    if (skillsGridRef.current) {
-      const skillCards = skillsGridRef.current.querySelectorAll('.skill-card');
-      animate(skillCards, {
-        translateY: [40, 0],
-        opacity: [0, 1],
-        delay: stagger(100),
-        duration: 800,
-        easing: 'easeOutElastic(1, .6)',
-        autoplay: onScroll({
-          target: skillsGridRef.current,
-          enter: 'bottom-=100 top'
-        })
-      });
-    }
-
-    // Projects Section: Slide up animation on scroll
-    if (projectsGridRef.current) {
-      const projectCards = projectsGridRef.current.querySelectorAll('.project-card');
-      animate(projectCards, {
-        translateY: [60, 0],
-        opacity: [0, 1],
-        delay: stagger(150),
-        duration: 1000,
-        easing: 'easeOutQuad',
-        autoplay: onScroll({
-          target: projectsGridRef.current,
-          enter: 'bottom-=150 top'
-        })
-      });
-    }
-
-    // Education Section: Simple fade in
-    if (educationRef.current) {
-      animate(educationRef.current, {
-        opacity: [0, 1],
-        translateY: [30, 0],
-        duration: 800,
-        easing: 'easeOutQuad',
-        autoplay: onScroll({
-          target: educationRef.current,
-          enter: 'bottom-=100 top'
-        })
-      });
-    }
-  }, []);
-
   return (
     <div className="min-h-screen selection:bg-blue-500/30">
       <ParticleBackground />
@@ -260,11 +220,11 @@ function App() {
           <span className="text-blue-400 font-medium mb-4">THE TOOLKIT</span>
           <h2 className="text-4xl md:text-5xl font-bold text-white">Technical <span className="text-gradient">Arsenal</span></h2>
         </div>
-        <div ref={skillsGridRef} className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <SkillCard title="Languages" skills={SKILLS.languages} icon={Code2} />
-          <SkillCard title="Web Stacks" skills={SKILLS.web} icon={Terminal} />
-          <SkillCard title="AI & ML" skills={SKILLS.ml} icon={Cpu} />
-          <SkillCard title="Dev Tools" skills={SKILLS.tools} icon={Database} />
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <SkillCard title="Languages" skills={SKILLS.languages} icon={Code2} delay={0} />
+          <SkillCard title="Web Stacks" skills={SKILLS.web} icon={Terminal} delay={0.1} />
+          <SkillCard title="AI & ML" skills={SKILLS.ml} icon={Cpu} delay={0.2} />
+          <SkillCard title="Dev Tools" skills={SKILLS.tools} icon={Database} delay={0.3} />
         </div>
       </Section>
 
@@ -273,15 +233,21 @@ function App() {
           <span className="text-blue-400 font-medium mb-4">SELECTED WORKS</span>
           <h2 className="text-4xl md:text-5xl font-bold text-white">Featured <span className="text-gradient">Projects</span></h2>
         </div>
-        <div ref={projectsGridRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {PROJECTS.map((project, index) => (
-            <ProjectCard key={index} project={project} />
+            <ProjectCard key={index} project={project} index={index} />
           ))}
         </div>
       </Section>
 
       <Section id="education">
-        <div ref={educationRef} className="glass p-10 rounded-3xl border border-white/10 relative overflow-hidden opacity-0">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="glass p-10 rounded-3xl border border-white/10 relative overflow-hidden"
+        >
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
 
           <div className="relative z-10 grid md:grid-cols-3 gap-10">
@@ -310,11 +276,17 @@ function App() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </Section>
 
       <Section id="contact" className="mb-20">
-        <div className="glass rounded-3xl p-12 text-center max-w-4xl mx-auto relative overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="glass rounded-3xl p-12 text-center max-w-4xl mx-auto relative overflow-hidden"
+        >
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 pointer-events-none" />
           <h2 className="text-4xl font-bold mb-6 text-white relative z-10">Ready to <span className="text-gradient">Collaborate?</span></h2>
           <p className="text-slate-300 mb-10 text-lg max-w-2xl mx-auto leading-relaxed relative z-10">
@@ -323,11 +295,11 @@ function App() {
           <a href={`mailto:${PROFILE.email}`} className="relative z-10 inline-flex items-center gap-2 px-10 py-5 bg-white text-slate-900 hover:bg-slate-100 rounded-full font-bold transition">
             <Mail size={20} /> Say Hello
           </a>
-        </div>
+        </motion.div>
       </Section>
 
       <footer className="py-8 text-center text-slate-600 text-sm">
-        <p>Built with React, Tailwind & Anime.js V4</p>
+        <p>Built with React, Tailwind & Framer Motion</p>
         <p className="mt-2 text-slate-700">&copy; {new Date().getFullYear()} Harsh Goutam</p>
       </footer>
     </div>
