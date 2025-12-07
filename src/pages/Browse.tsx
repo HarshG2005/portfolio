@@ -345,17 +345,17 @@ const Browse = () => {
                     items={[
                         {
                             title: "BMS Institute of Technology",
-                            image: "https://images.unsplash.com/photo-1562774053-701939374585?w=300&h=170&fit=crop",
+                            image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=300&h=170&fit=crop",
                             match: 99
                         },
                         {
                             title: "B.E. Computer Science (2023-27)",
-                            image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=300&h=170&fit=crop",
+                            image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=300&h=170&fit=crop",
                             match: 97
                         },
                         {
                             title: "CGPA: 8.85",
-                            image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=300&h=170&fit=crop",
+                            image: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=300&h=170&fit=crop",
                             match: 95
                         },
                         {
