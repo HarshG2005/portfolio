@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import anime from 'animejs';
+import ParticleBackground from './components/ParticleBackground';
 import {
   Github,
   Mail,
@@ -208,8 +210,25 @@ const ProjectCard = ({ project, index }: { project: typeof PROJECTS[0], index: n
 );
 
 function App() {
+  const heroTextRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Staggered text animation with anime.js
+    if (heroTextRef.current) {
+      anime({
+        targets: heroTextRef.current.querySelectorAll('.anime-stagger'),
+        translateY: [30, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(150, { start: 300 }),
+        easing: 'easeOutElastic(1, .6)',
+        duration: 1000
+      });
+    }
+  }, []);
+
   return (
     <div className="min-h-screen selection:bg-blue-500/30">
+      <ParticleBackground />
       <Navbar />
       <Hero />
 
