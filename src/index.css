@@ -1,55 +1,72 @@
 @import "tailwindcss";
 
+/* Netflix-style base */
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #020617;
-  color: #e2e8f0;
+  background-color: #141414;
+  color: #e5e5e5;
+  font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
+/* Hide scrollbar for carousels */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar for main page */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #020617;
+  background-color: #141414;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #1e293b;
+  background-color: #333;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #334155;
+  background-color: #555;
 }
 
 /* Glass Utility */
 .glass {
-  background-color: rgba(15, 23, 42, 0.4);
+  background-color: rgba(20, 20, 20, 0.8);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.glass-hover {
-  transition: all 0.3s;
-}
-
 .glass-hover:hover {
-  background-color: rgba(30, 41, 59, 0.6);
-  border-color: rgba(59, 130, 246, 0.3);
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+  background-color: rgba(40, 40, 40, 0.8);
+  border-color: rgba(229, 9, 20, 0.3);
 }
 
-/* Gradient Text Utility */
+/* Text gradient (Netflix Red) */
 .text-gradient {
-  background: linear-gradient(to right, #60a5fa, #34d399);
+  background: linear-gradient(to right, #E50914, #ff6b6b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Netflix card hover delay effect */
+.card-hover {
+  transition: transform 0.3s ease-in-out 0.4s;
+}
+
+.card-hover:hover {
+  transform: scale(1.1);
+  z-index: 10;
 }
