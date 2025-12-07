@@ -13,7 +13,8 @@ import {
     Code2,
     Heart,
     ChevronLeft,
-    ChevronRight
+    ChevronRight,
+    GraduationCap
 } from 'lucide-react';
 
 // --- DYNAMIC CONTENT BASED ON PROFILE (PRD Section 5) ---
@@ -336,6 +337,38 @@ const Browse = () => {
                     icon={dynamicRow.icon}
                     items={dynamicRow.items}
                 />
+
+                {/* Education Section */}
+                <section className="px-4 md:px-12 mb-8" id="education">
+                    <div className="flex items-center gap-3 mb-4">
+                        <GraduationCap size={20} className="text-[#E50914]" />
+                        <h2 className="text-lg md:text-xl font-bold text-white">Education</h2>
+                    </div>
+                    <div className="bg-[#1a1a1a] rounded-lg p-6 border border-gray-800">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <h3 className="text-xl font-bold text-white">BMS Institute of Technology and Management</h3>
+                                <p className="text-[#E50914] font-medium mt-1">Bachelor of Engineering (CSE)</p>
+                                <p className="text-gray-400 mt-1">2023 - 2027 | Bengaluru, India</p>
+                            </div>
+                            <div className="text-right">
+                                <span className="text-green-400 font-bold text-2xl">8.85</span>
+                                <p className="text-gray-500 text-sm">CGPA</p>
+                            </div>
+                        </div>
+                        <div className="mt-6 pt-4 border-t border-gray-800">
+                            <h4 className="text-sm font-bold text-gray-400 mb-3">ACHIEVEMENTS</h4>
+                            <div className="flex flex-wrap gap-3">
+                                <span className="px-3 py-1 bg-[#E50914]/10 text-[#E50914] rounded-full text-sm font-medium">
+                                    🏆 Code Red 2025 - National Finalist
+                                </span>
+                                <span className="px-3 py-1 bg-green-500/10 text-green-400 rounded-full text-sm font-medium">
+                                    💻 LeetCode 150+ Problems
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
 
             <footer className="py-12 px-4 md:px-12 text-center text-gray-600 text-sm">
