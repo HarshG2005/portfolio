@@ -54,43 +54,43 @@ const projects = [
     {
         id: 'edu-saarathi',
         title: 'Edu-Saarathi',
-        description: 'AI-powered personalized learning platform',
+        description: 'AI-Driven Learning & Concept Mapping Platform using Gemini LLM',
         thumbnail: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=225&fit=crop',
         match: 98,
-        tags: ['React', 'AI', 'EdTech'],
+        tags: ['React', 'Gemini API', 'Node.js'],
         year: '2024',
         featured: true,
-        link: '#'
+        link: 'https://github.com/HarshG2005/Edu-Saarathi'
+    },
+    {
+        id: 'datavis',
+        title: 'DATAVIS',
+        description: 'Intelligent EDA Platform with Natural Language Processing',
+        thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=225&fit=crop',
+        match: 96,
+        tags: ['Gemini API', 'React', 'Recharts'],
+        year: '2024',
+        link: 'https://github.com/HarshG2005/NL2VIS'
+    },
+    {
+        id: 'neuronav',
+        title: 'NEURONAV',
+        description: 'Reinforcement Learning Telemetry Dashboard with WebSocket',
+        thumbnail: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=225&fit=crop',
+        match: 94,
+        tags: ['Python', 'Stable Baselines3', 'WebSocket'],
+        year: '2024',
+        link: 'https://github.com/HarshG2005/NeuroNav'
     },
     {
         id: 'portfolio',
         title: 'Netflix Portfolio',
-        description: 'This very portfolio you\'re viewing',
+        description: 'This very portfolio you\'re viewing right now',
         thumbnail: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=225&fit=crop',
-        match: 97,
-        tags: ['React', 'Tailwind', 'Framer'],
+        match: 100,
+        tags: ['React', 'Tailwind', 'Framer Motion'],
         year: '2024',
-        link: '#'
-    },
-    {
-        id: 'chatbot',
-        title: 'AI Chatbot',
-        description: 'Intelligent conversational assistant',
-        thumbnail: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=225&fit=crop',
-        match: 95,
-        tags: ['Python', 'NLP', 'FastAPI'],
-        year: '2024',
-        link: '#'
-    },
-    {
-        id: 'dashboard',
-        title: 'Analytics Dashboard',
-        description: 'Real-time data visualization',
-        thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=225&fit=crop',
-        match: 93,
-        tags: ['D3.js', 'React', 'SQL'],
-        year: '2023',
-        link: '#'
+        link: 'https://github.com/HarshG2005/portfolio'
     },
 ];
 

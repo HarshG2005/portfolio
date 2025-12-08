@@ -6,55 +6,41 @@ const projects = [
     {
         id: 'edu-saarathi',
         title: 'Edu-Saarathi',
-        description: 'AI-powered personalized learning platform that adapts to your learning style. Features real-time progress tracking and intelligent course recommendations.',
+        subtitle: 'AI-Driven Learning & Concept Mapping Platform',
+        description: 'Developed a comprehensive AI-assisted platform generating mind maps, MCQs, and summaries from user text using Google Gemini LLM. Engineered an interactive mind-mapping interface using React & ShadCN/UI to visually represent knowledge and improve revision workflows.',
         thumbnail: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&h=400&fit=crop',
-        tags: ['React', 'TypeScript', 'AI'],
-        github: 'https://github.com/HarshG2005',
+        tags: ['React', 'Node.js', 'Gemini API', 'ShadCN/UI', 'Railway'],
+        github: 'https://github.com/HarshG2005/Edu-Saarathi',
+        live: '#'
+    },
+    {
+        id: 'datavis',
+        title: 'DATAVIS',
+        subtitle: 'Intelligent Exploratory Data Analysis Platform',
+        description: 'Developed an automated data analytics tool that transforms raw CSV/Excel datasets into interactive visualizations using Natural Language Processing. Integrated Gemini Pro API with custom prompt engineering to detect anomalies, summarize trends, and generate actionable insights.',
+        thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop',
+        tags: ['Gemini API', 'Express.js', 'React', 'Recharts', 'PapaParse'],
+        github: 'https://github.com/HarshG2005/NL2VIS',
+        live: '#'
+    },
+    {
+        id: 'neuronav',
+        title: 'NEURONAV',
+        subtitle: 'Reinforcement Learning Telemetry Dashboard',
+        description: 'Designed a real-time monitoring system for Proximal Policy Optimization (PPO) agents training in 3D virtual environments. Implemented a multi-process architecture to decouple agent training from the visualization engine with low-latency WebSocket streaming.',
+        thumbnail: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop',
+        tags: ['Python', 'Stable Baselines3', 'WebSocket', 'MiniWorld'],
+        github: 'https://github.com/HarshG2005/NeuroNav',
         live: '#'
     },
     {
         id: 'portfolio',
         title: 'Netflix Portfolio',
-        description: 'This very portfolio you\'re viewing. A Netflix-inspired portfolio site with persona-based content and smooth animations.',
+        subtitle: 'This Very Site You\'re Viewing',
+        description: 'A Netflix-inspired portfolio site with persona-based content, smooth Framer Motion animations, and dynamic content that changes based on whether you\'re a Recruiter, Developer, or just stalking.',
         thumbnail: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&h=400&fit=crop',
-        tags: ['React', 'Tailwind', 'Framer Motion'],
+        tags: ['React', 'TypeScript', 'Tailwind', 'Framer Motion'],
         github: 'https://github.com/HarshG2005/portfolio',
-        live: '#'
-    },
-    {
-        id: 'chatbot',
-        title: 'AI Chatbot',
-        description: 'Intelligent conversational assistant built with Python and NLP. Features context awareness and multi-turn conversations.',
-        thumbnail: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop',
-        tags: ['Python', 'NLP', 'FastAPI'],
-        github: 'https://github.com/HarshG2005',
-        live: '#'
-    },
-    {
-        id: 'dashboard',
-        title: 'Analytics Dashboard',
-        description: 'Real-time data visualization dashboard with interactive charts, custom filters, and export capabilities.',
-        thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop',
-        tags: ['D3.js', 'React', 'SQL'],
-        github: 'https://github.com/HarshG2005',
-        live: '#'
-    },
-    {
-        id: 'byteforge',
-        title: 'ByteForge',
-        description: 'Real-time hand gesture recognition system using computer vision. Built for Code Red hackathon.',
-        thumbnail: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&h=400&fit=crop',
-        tags: ['Python', 'OpenCV', 'Streamlit'],
-        github: 'https://github.com/HarshG2005',
-        live: '#'
-    },
-    {
-        id: 'quizzy',
-        title: 'Quizzy',
-        description: 'AI-driven quiz generation tool that creates MCQs from PDF documents using Google Gemini API.',
-        thumbnail: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=400&fit=crop',
-        tags: ['React', 'FastAPI', 'Gemini AI'],
-        github: 'https://github.com/HarshG2005',
         live: '#'
     },
 ];
@@ -78,10 +64,11 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0]; index: n
 
         {/* Content */}
         <div className="p-5">
-            <h3 className="text-xl text-[#E50914] font-semibold mb-2" style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '0.05em' }}>
+            <h3 className="text-xl text-[#E50914] font-semibold mb-1" style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: '0.05em' }}>
                 {project.title}
             </h3>
-            <p className="text-gray-400 text-sm mb-4 line-clamp-3">
+            <p className="text-gray-300 text-sm mb-2">{project.subtitle}</p>
+            <p className="text-gray-500 text-sm mb-4 line-clamp-3">
                 {project.description}
             </p>
 
