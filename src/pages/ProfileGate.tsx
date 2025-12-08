@@ -1,84 +1,103 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useUser, type ProfileType } from '../context/UserContext';
+import { Briefcase, Code2, Eye } from 'lucide-react';
 
-// Avatar images - replace these URLs with your own images in public folder
 const profiles = [
     {
         id: 'RECRUITER' as ProfileType,
-        name: 'Recruiter',
-        // Blue fuzzy avatar
-        image: 'https://api.dicebear.com/7.x/bottts-neutral/svg?seed=recruiter&backgroundColor=3b82f6',
-        hoverClass: 'hover:ring-4 hover:ring-white/80 hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]'
+        label: 'Recruiter',
+        icon: Briefcase,
+        glowClass: 'group-hover:glow-white',
+        borderColor: 'group-hover:border-white',
     },
     {
         id: 'DEVELOPER' as ProfileType,
-        name: 'Developer',
-        // Gray/tech avatar
-        image: 'https://api.dicebear.com/7.x/bottts-neutral/svg?seed=developer&backgroundColor=374151',
-        hoverClass: 'hover:ring-4 hover:ring-green-500/80 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)]'
+        label: 'Developer',
+        icon: Code2,
+        glowClass: 'group-hover:glow-green',
+        borderColor: 'group-hover:border-green-500',
     },
     {
         id: 'STALKER' as ProfileType,
-        name: 'Stalker',
-        // Red avatar
-        image: 'https://api.dicebear.com/7.x/bottts-neutral/svg?seed=stalker&backgroundColor=dc2626',
-        hoverClass: 'hover:ring-4 hover:ring-red-500/80 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)]'
-    }
+        label: 'Stalker',
+        icon: Eye,
+        glowClass: 'group-hover:glow-red',
+        borderColor: 'group-hover:border-red-500',
+    },
 ];
 
 const ProfileGate = () => {
     const { setSelectedProfile } = useUser();
     const navigate = useNavigate();
-    const [isTransitioning, setIsTransitioning] = useState(false);
     const [selectedId, setSelectedId] = useState<ProfileType>(null);
 
-    const handleProfileSelect = (profile: ProfileType) => {
-        setSelectedProfile(profile);
-        setSelectedId(profile);
-        setIsTransitioning(true);
-
+    const handleSelect = (persona: ProfileType) => {
+        setSelectedProfile(persona);
+        setSelectedId(persona);
         setTimeout(() => {
             navigate('/browse');
-        }, 600);
+        }, 800);
     };
 
     return (
-        <div
-            className={`min-h-screen bg-[#141414] flex flex-col items-center justify-center px-4 transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
+        <motion.div
+            className="fixed inset-0 bg-black flex flex-col items-center justify-center z-40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: selectedId ? 0 : 1 }}
+            transition={{ duration: 0.5 }}
         >
-            <h1 className="text-4xl md:text-5xl font-medium text-white mb-12 tracking-wide">
+            <motion.h1
+                className="text-4xl md:text-6xl text-white mb-16 tracking-wider"
+                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+            >
                 Who's Watching?
-            </h1>
+            </motion.h1>
 
-            <div className="flex flex-wrap justify-center gap-6 md:gap-8">
-                {profiles.map((profile) => {
-                    const isSelected = selectedId === profile.id;
+            <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+                {profiles.map((profile, index) => {
+                    const Icon = profile.icon;
                     return (
-                        <button
+                        <motion.button
                             key={profile.id}
-                            onClick={() => handleProfileSelect(profile.id)}
-                            className={`group flex flex-col items-center gap-3 transition-all duration-300 ${profile.hoverClass} rounded-lg ${isSelected ? 'scale-125 opacity-0' : ''}`}
+                            className="group flex flex-col items-center gap-4"
+                            onClick={() => handleSelect(profile.id)}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 + index * 0.15 }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                         >
-                            <div className="w-28 h-28 md:w-36 md:h-36 rounded-lg overflow-hidden transition-transform duration-300 group-hover:scale-105">
-                                <img
-                                    src={profile.image}
-                                    alt={profile.name}
-                                    className="w-full h-full object-cover"
-                                />
+                            <div
+                                className={`
+                  w-24 h-24 md:w-32 md:h-32 rounded-lg bg-[#1a1a1a]
+                  flex items-center justify-center border-2 border-transparent
+                  transition-all duration-300 ${profile.glowClass} ${profile.borderColor}
+                `}
+                            >
+                                <Icon className="w-12 h-12 md:w-16 md:h-16 text-gray-500 group-hover:text-white transition-colors duration-300" />
                             </div>
-                            <span className="text-gray-400 text-lg group-hover:text-white transition-colors">
-                                {profile.name}
+                            <span className="text-gray-500 group-hover:text-white text-lg transition-colors duration-300">
+                                {profile.label}
                             </span>
-                        </button>
+                        </motion.button>
                     );
                 })}
             </div>
 
-            <p className="mt-16 text-gray-600 text-sm">
-                Choose your perspective
-            </p>
-        </div>
+            <motion.p
+                className="mt-16 text-gray-600 text-sm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+            >
+                Select a profile to customize your experience
+            </motion.p>
+        </motion.div>
     );
 };
 

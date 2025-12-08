@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useUser, type ProfileType } from '../context/UserContext';
+import { motion } from 'framer-motion';
 import {
     Github,
     Linkedin,
@@ -9,297 +10,391 @@ import {
     Twitter,
     Play,
     Info,
-    Award,
-    Code2,
-    Heart,
+    Plus,
+    ThumbsUp,
+    ChevronDown,
     ChevronLeft,
     ChevronRight,
     GraduationCap
 } from 'lucide-react';
 
-// --- DYNAMIC CONTENT BASED ON PROFILE (PRD Section 5) ---
+// --- DYNAMIC CONTENT BASED ON PROFILE ---
 const heroContent: Record<NonNullable<ProfileType>, {
     title: string;
     subtitle: string;
     description: string;
-    primaryBtn: { text: string; icon: typeof FileText; link: string };
-    secondaryBtn: { text: string; icon: typeof Linkedin; link: string };
+    primaryCta: { label: string; icon: typeof FileText; link: string };
+    secondaryCta: { label: string; icon: typeof Github; link: string };
 }> = {
     RECRUITER: {
-        title: "Harsh Goutam",
-        subtitle: "#1 Ranked for Hire",
-        description: "B.E. CSE Student (2027) with a focus on scalable AI solutions. National Hackathon Finalist. Ready to drive business impact.",
-        primaryBtn: { text: "Download Resume", icon: FileText, link: "/resume.pdf" },
-        secondaryBtn: { text: "LinkedIn", icon: Linkedin, link: "https://linkedin.com/in/harshgoutam" }
+        title: "Full-Stack Developer",
+        subtitle: "HARSH GOUTAM",
+        description: "Passionate about building scalable web applications with modern technologies. Currently pursuing B.E. in Computer Science at BMS Institute of Technology.",
+        primaryCta: { label: "Download Resume", icon: FileText, link: "#" },
+        secondaryCta: { label: "LinkedIn", icon: Linkedin, link: "https://linkedin.com" }
     },
     DEVELOPER: {
-        title: "Full Stack Architect",
-        subtitle: "Built with React & Gemini",
-        description: "Check out the clean architecture behind this site. Powered by Anime.js, Tailwind CSS, and React Router. Open source everything.",
-        primaryBtn: { text: "View Source Code", icon: Github, link: "https://github.com/HarshG2005/portfolio" },
-        secondaryBtn: { text: "Tech Stack", icon: Code2, link: "#skills" }
+        title: "Code Architect",
+        subtitle: "HARSH GOUTAM",
+        description: "React, TypeScript, Node.js enthusiast. Building performant UIs and scalable backends. Check out my GitHub for open source contributions.",
+        primaryCta: { label: "View GitHub", icon: Github, link: "https://github.com/HarshG2005" },
+        secondaryCta: { label: "Tech Stack", icon: Info, link: "#tech" }
     },
     STALKER: {
-        title: "Welcome, Fan 👀",
-        subtitle: "I see you looking...",
-        description: "Since you dug this deep, you might as well follow me on socials. No screenshots allowed. I know you're here at 3 AM. 😏",
-        primaryBtn: { text: "Instagram", icon: Instagram, link: "https://instagram.com" },
-        secondaryBtn: { text: "Twitter / X", icon: Twitter, link: "https://twitter.com" }
+        title: "Just a Human",
+        subtitle: "HARSH GOUTAM",
+        description: "When not coding, I'm probably watching anime, exploring new music, or contemplating the meaning of semicolons. Welcome to the stalker zone 👀",
+        primaryCta: { label: "Instagram", icon: Instagram, link: "https://instagram.com" },
+        secondaryCta: { label: "Twitter", icon: Twitter, link: "https://twitter.com" }
     }
 };
 
+// Projects data
 const projects = [
     {
-        title: "Edu-Saarathi",
-        category: "AI-EdTech",
-        description: "AI-assisted learning with mind maps, MCQs, and summaries.",
-        image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=225&fit=crop",
-        link: "https://github.com/HarshG2005/Edu-Saarathi",
+        id: 'edu-saarathi',
+        title: 'Edu-Saarathi',
+        description: 'AI-powered personalized learning platform',
+        thumbnail: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=225&fit=crop',
         match: 98,
-        tags: ["React", "Gemini API", "Node.js"]
+        tags: ['React', 'AI', 'EdTech'],
+        year: '2024',
+        featured: true,
+        link: '#'
     },
     {
-        title: "DATAVIS",
-        category: "Data Analytics",
-        description: "Transform raw datasets into interactive visualizations.",
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=225&fit=crop",
-        link: "https://github.com/HarshG2005/NL2VIS",
+        id: 'portfolio',
+        title: 'Netflix Portfolio',
+        description: 'This very portfolio you\'re viewing',
+        thumbnail: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=225&fit=crop',
+        match: 97,
+        tags: ['React', 'Tailwind', 'Framer'],
+        year: '2024',
+        link: '#'
+    },
+    {
+        id: 'chatbot',
+        title: 'AI Chatbot',
+        description: 'Intelligent conversational assistant',
+        thumbnail: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=225&fit=crop',
         match: 95,
-        tags: ["Python", "Recharts", "NLP"]
+        tags: ['Python', 'NLP', 'FastAPI'],
+        year: '2024',
+        link: '#'
     },
     {
-        title: "NEURONAV",
-        category: "RL Dashboard",
-        description: "Real-time monitoring for PPO agents in 3D environments.",
-        image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=225&fit=crop",
-        link: "https://github.com/HarshG2005/NeuroNav",
-        match: 92,
-        tags: ["Python", "WebSockets", "RL"]
-    }
+        id: 'dashboard',
+        title: 'Analytics Dashboard',
+        description: 'Real-time data visualization',
+        thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=225&fit=crop',
+        match: 93,
+        tags: ['D3.js', 'React', 'SQL'],
+        year: '2023',
+        link: '#'
+    },
 ];
 
-const dynamicRows: Record<NonNullable<ProfileType>, {
-    title: string;
-    icon: typeof Award;
-    items: { title: string; image: string; match?: number }[];
-}> = {
-    RECRUITER: {
-        title: "Certifications & Honors",
-        icon: Award,
-        items: [
-            { title: "Code Red 2025 - National Finalist", image: "https://images.unsplash.com/photo-1567521464027-f127ff144326?w=300&h=170&fit=crop", match: 99 },
-            { title: "LeetCode - 150+ Problems", image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=300&h=170&fit=crop", match: 95 },
-            { title: "CGPA: 8.85 - BMS Institute", image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=300&h=170&fit=crop", match: 97 }
-        ]
-    },
-    DEVELOPER: {
-        title: "Tech Stack & Tools",
-        icon: Code2,
-        items: [
-            { title: "React & TypeScript", image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=300&h=170&fit=crop", match: 98 },
-            { title: "Python & AI/ML", image: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=300&h=170&fit=crop", match: 96 },
-            { title: "Node.js & Express", image: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=300&h=170&fit=crop", match: 94 },
-            { title: "Docker & DevOps", image: "https://images.unsplash.com/photo-1605745341112-85968b19335b?w=300&h=170&fit=crop", match: 90 }
-        ]
-    },
-    STALKER: {
-        title: "Personal Interests",
-        icon: Heart,
-        items: [
-            { title: "Chess ♟️", image: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=300&h=170&fit=crop", match: 100 },
-            { title: "Cricket 🏏", image: "https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=300&h=170&fit=crop", match: 97 },
-            { title: "Photography 📷", image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=300&h=170&fit=crop", match: 94 },
-            { title: "Gaming 🎮", image: "https://images.unsplash.com/photo-1493711662062-fa541f7f3d24?w=300&h=170&fit=crop", match: 91 }
-        ]
-    }
-};
+const education = [
+    { title: 'BMS Institute of Technology', thumbnail: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=400&h=225&fit=crop', match: 99 },
+    { title: 'B.E. Computer Science (2023-27)', thumbnail: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=225&fit=crop', match: 97 },
+    { title: 'CGPA: 8.85', thumbnail: 'https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=400&h=225&fit=crop', match: 95 },
+    { title: '🏆 Code Red 2025 Finalist', thumbnail: 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=400&h=225&fit=crop', match: 100 },
+    { title: '💻 LeetCode 150+ Solved', thumbnail: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=225&fit=crop', match: 96 },
+];
 
 // --- COMPONENTS ---
-
 const Navbar = () => {
     const navigate = useNavigate();
-
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 px-4 md:px-12 py-4 bg-gradient-to-b from-black to-transparent">
+        <motion.nav
+            className="fixed top-0 left-0 right-0 z-50 px-4 md:px-16 py-4"
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-8">
-                    <button onClick={() => navigate('/')} className="text-[#E50914] text-3xl font-bold tracking-tighter">
+                    <Link to="/" className="text-3xl font-bold text-[#E50914]" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
                         HG
-                    </button>
-                    <div className="hidden md:flex items-center gap-6 text-sm text-gray-300">
-                        <a href="#" className="text-white font-medium">Home</a>
-                        <a href="#skills" className="hover:text-white transition">Tech Stack</a>
-                        <a href="#projects" className="hover:text-white transition">Projects</a>
+                    </Link>
+                    <div className="hidden md:flex items-center gap-6">
+                        <a href="#" className="text-white hover:text-gray-300 transition-colors">Home</a>
+                        <a href="#projects" className="text-gray-400 hover:text-white transition-colors">Projects</a>
+                        <a href="#education" className="text-gray-400 hover:text-white transition-colors">Education</a>
                     </div>
                 </div>
                 <button
-                    onClick={() => navigate('/')}
-                    className="text-sm text-gray-300 hover:text-white transition"
+                    onClick={() => navigate('/profiles')}
+                    className="text-gray-400 hover:text-white text-sm transition-colors"
                 >
                     Switch Profile
                 </button>
             </div>
-        </nav>
+        </motion.nav>
     );
 };
 
-const HeroSection = ({ profile }: { profile: NonNullable<ProfileType> }) => {
+const Hero = ({ profile }: { profile: NonNullable<ProfileType> }) => {
     const content = heroContent[profile];
+    const featured = projects.find(p => p.featured) || projects[0];
+    const SecondaryCta = content.secondaryCta.icon;
 
     return (
-        <section className="relative min-h-screen flex items-end pb-32 px-4 md:px-12">
-            {/* Background with Ken Burns effect */}
+        <div className="relative h-screen w-full overflow-hidden">
+            {/* Background Image */}
             <div
-                className="absolute inset-0 bg-cover bg-center animate-ken-burns"
-                style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1517134191118-9d595e4c8c2b?w=1920&h=1080&fit=crop)' }}
-            />
-
-            {/* Gradients */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-[#141414]/70 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent" />
-
-            <div className="relative z-20 max-w-2xl">
-                <span className="text-[#E50914] font-bold text-sm tracking-wider mb-2 block">{content.subtitle}</span>
-                <h1 className="text-5xl md:text-7xl font-black text-white mb-4 tracking-tight">
-                    {content.title}
-                </h1>
-                <p className="text-lg text-gray-300 mb-8 leading-relaxed max-w-xl">
-                    {content.description}
-                </p>
-                <div className="flex gap-3">
-                    <a
-                        href={content.primaryBtn.link}
-                        target={content.primaryBtn.link.startsWith('http') ? '_blank' : undefined}
-                        rel="noreferrer"
-                        className="flex items-center gap-2 bg-white text-black px-6 py-3 rounded font-bold hover:bg-gray-200 transition text-lg"
-                    >
-                        <Play size={20} fill="black" /> {content.primaryBtn.text}
-                    </a>
-                    <a
-                        href={content.secondaryBtn.link}
-                        target={content.secondaryBtn.link.startsWith('http') ? '_blank' : undefined}
-                        rel="noreferrer"
-                        className="flex items-center gap-2 bg-gray-500/60 text-white px-6 py-3 rounded font-bold hover:bg-gray-500/80 transition text-lg"
-                    >
-                        <Info size={20} /> {content.secondaryBtn.text}
-                    </a>
-                </div>
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: `url(${featured.thumbnail})` }}
+            >
+                <div className="absolute inset-0 hero-gradient-right" />
+                <div className="absolute inset-0 hero-gradient-bottom" />
             </div>
-        </section>
+
+            {/* Content */}
+            <div className="relative z-10 h-full flex flex-col justify-center px-8 md:px-16 max-w-3xl pt-20">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.6 }}
+                >
+                    {/* Featured Tag */}
+                    <motion.span
+                        className="inline-block bg-[#E50914] px-3 py-1 text-sm font-semibold mb-4 tracking-wide"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.5 }}
+                    >
+                        FEATURED
+                    </motion.span>
+
+                    {/* Title */}
+                    <h1
+                        className="text-5xl md:text-7xl lg:text-8xl text-white mb-4 text-shadow-dramatic"
+                        style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                    >
+                        {content.title}
+                    </h1>
+
+                    {/* Description */}
+                    <p className="text-lg md:text-xl text-white/90 mb-8 max-w-xl leading-relaxed">
+                        {content.description}
+                    </p>
+
+                    {/* Match & Tags */}
+                    <div className="flex items-center gap-4 mb-8 flex-wrap">
+                        <span className="text-match-green font-semibold text-lg">
+                            {featured.match}% Match
+                        </span>
+                        <span className="text-gray-400">{featured.year}</span>
+                        <div className="flex gap-2">
+                            {featured.tags.map(tag => (
+                                <span key={tag} className="text-gray-400 text-sm border border-gray-600 px-2 py-0.5 rounded">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Buttons */}
+                    <div className="flex gap-4 flex-wrap">
+                        <a
+                            href={content.primaryCta.link}
+                            className="netflix-button text-lg"
+                        >
+                            <Play className="w-5 h-5" fill="currentColor" />
+                            {content.primaryCta.label}
+                        </a>
+                        <a
+                            href={content.secondaryCta.link}
+                            className="bg-gray-600/80 hover:bg-gray-600 text-white px-6 py-3 rounded flex items-center gap-2 transition-colors"
+                        >
+                            <SecondaryCta className="w-5 h-5" />
+                            {content.secondaryCta.label}
+                        </a>
+                    </div>
+                </motion.div>
+            </div>
+
+            {/* Skip Intro Button */}
+            <motion.a
+                href="#projects"
+                className="absolute bottom-8 right-8 flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+            >
+                <span className="text-sm uppercase tracking-widest">Explore Projects</span>
+                <motion.div animate={{ y: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
+                    <ChevronDown className="w-5 h-5" />
+                </motion.div>
+            </motion.a>
+        </div>
     );
 };
 
-// Movie Card with 400ms hover delay (PRD Section 4.3)
-const MovieCard = ({ item, link }: { item: { title: string; image: string; match?: number; tags?: string[] }; link?: string }) => {
+// Movie Card Component
+const MovieCard = ({ project, index }: { project: typeof projects[0]; index: number }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const [showExpanded, setShowExpanded] = useState(false);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const handleMouseEnter = () => {
-        setIsHovered(true);
-        timeoutRef.current = setTimeout(() => {
-            setShowExpanded(true);
-        }, 400); // 400ms delay per PRD
+        timeoutRef.current = setTimeout(() => setIsHovered(true), 300);
     };
 
     const handleMouseLeave = () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
         setIsHovered(false);
-        setShowExpanded(false);
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
     };
 
     return (
-        <a
-            href={link || '#'}
-            target={link?.startsWith('http') ? '_blank' : undefined}
-            rel="noreferrer"
-            className={`flex-shrink-0 relative rounded-md overflow-hidden transition-all duration-300 ${showExpanded ? 'scale-150 z-50 shadow-2xl' : ''}`}
+        <motion.div
+            className="relative flex-shrink-0 cursor-pointer"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            <img
-                src={item.image}
-                alt={item.title}
-                className="w-64 h-36 object-cover"
-            />
+            <div
+                className={`relative w-64 md:w-72 aspect-video rounded-sm overflow-hidden transition-all duration-300 ease-out
+          ${isHovered ? 'scale-125 z-50 shadow-2xl' : 'scale-100 z-10'}`}
+            >
+                <img src={project.thumbnail} alt={project.title} className="w-full h-full object-cover" />
 
-            {/* Expanded overlay with info */}
-            {showExpanded && (
-                <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/80 to-transparent flex flex-col justify-end p-3">
-                    {item.match && (
-                        <span className="text-green-400 font-bold text-xs mb-1">{item.match}% Match</span>
-                    )}
-                    <p className="text-white text-sm font-medium">{item.title}</p>
-                    {item.tags && (
-                        <div className="flex gap-1 mt-1">
-                            {item.tags.slice(0, 2).map(tag => (
-                                <span key={tag} className="text-[10px] text-gray-400 bg-gray-800 px-1 rounded">{tag}</span>
+                {/* Hover Info Panel */}
+                <motion.div
+                    className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/80 to-transparent"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: isHovered ? 1 : 0 }}
+                    transition={{ duration: 0.2 }}
+                >
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <h3 className="text-xl text-white mb-2" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+                            {project.title}
+                        </h3>
+
+                        {/* Action Buttons */}
+                        <div className="flex items-center gap-2 mb-3">
+                            <button className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-colors">
+                                <Play className="w-4 h-4" fill="currentColor" />
+                            </button>
+                            <button className="w-8 h-8 rounded-full border-2 border-gray-400 text-white flex items-center justify-center hover:border-white transition-colors">
+                                <Plus className="w-4 h-4" />
+                            </button>
+                            <button className="w-8 h-8 rounded-full border-2 border-gray-400 text-white flex items-center justify-center hover:border-white transition-colors">
+                                <ThumbsUp className="w-4 h-4" />
+                            </button>
+                            <button className="w-8 h-8 rounded-full border-2 border-gray-400 text-white flex items-center justify-center hover:border-white transition-colors ml-auto">
+                                <ChevronDown className="w-4 h-4" />
+                            </button>
+                        </div>
+
+                        {/* Meta */}
+                        <div className="flex items-center gap-3 text-sm">
+                            <span className="text-match-green font-semibold">{project.match}% Match</span>
+                            <span className="text-gray-400 border border-gray-600 px-1">{project.year}</span>
+                        </div>
+
+                        {/* Tags */}
+                        <div className="flex gap-1 mt-2 flex-wrap">
+                            {project.tags.slice(0, 3).map((tag, i) => (
+                                <span key={tag} className="text-xs text-gray-400">
+                                    {tag}{i < Math.min(project.tags.length, 3) - 1 && ' •'}
+                                </span>
                             ))}
                         </div>
-                    )}
-                </div>
-            )}
-
-            {/* Default title overlay */}
-            {!showExpanded && isHovered && (
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-3">
-                    <p className="text-white text-sm font-medium">{item.title}</p>
-                </div>
-            )}
-        </a>
+                    </div>
+                </motion.div>
+            </div>
+        </motion.div>
     );
 };
 
-// Content Row with Chevron controls (PRD Section 4.2)
-const ContentRow = ({ title, items, icon: Icon }: {
-    title: string;
-    items: { title: string; image: string; link?: string; match?: number; tags?: string[] }[];
-    icon?: typeof Award
-}) => {
-    const rowRef = useRef<HTMLDivElement>(null);
+// Content Row Component
+const ContentRow = ({ title, items, icon: Icon }: { title: string; items: typeof projects | typeof education; icon?: typeof Play }) => {
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [showLeft, setShowLeft] = useState(false);
+    const [showRight, setShowRight] = useState(true);
 
     const scroll = (direction: 'left' | 'right') => {
-        if (rowRef.current) {
-            const scrollAmount = 300;
-            rowRef.current.scrollBy({
-                left: direction === 'left' ? -scrollAmount : scrollAmount,
-                behavior: 'smooth'
-            });
+        if (scrollRef.current) {
+            const scrollAmount = direction === 'left' ? -400 : 400;
+            scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    };
+
+    const handleScroll = () => {
+        if (scrollRef.current) {
+            setShowLeft(scrollRef.current.scrollLeft > 0);
+            setShowRight(scrollRef.current.scrollLeft < scrollRef.current.scrollWidth - scrollRef.current.clientWidth - 10);
         }
     };
 
     return (
-        <section className="px-4 md:px-12 mb-8 group/row relative">
-            <div className="flex items-center gap-3 mb-3">
+        <section className="mb-8 group/row">
+            <div className="flex items-center gap-3 px-4 md:px-16 mb-4">
                 {Icon && <Icon size={20} className="text-[#E50914]" />}
-                <h2 className="text-lg md:text-xl font-bold text-white">{title}</h2>
+                <h2 className="text-lg md:text-xl font-bold text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+                    {title}
+                </h2>
             </div>
 
-            {/* Chevron Controls */}
-            <button
-                onClick={() => scroll('left')}
-                className="absolute left-0 top-1/2 z-40 h-36 w-12 bg-black/50 flex items-center justify-center opacity-0 group-hover/row:opacity-100 transition-opacity"
-            >
-                <ChevronLeft className="text-white" size={32} />
-            </button>
-            <button
-                onClick={() => scroll('right')}
-                className="absolute right-0 top-1/2 z-40 h-36 w-12 bg-black/50 flex items-center justify-center opacity-0 group-hover/row:opacity-100 transition-opacity"
-            >
-                <ChevronRight className="text-white" size={32} />
-            </button>
+            <div className="relative">
+                {/* Left Arrow */}
+                {showLeft && (
+                    <button
+                        onClick={() => scroll('left')}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 z-40 w-10 h-10 bg-black/80 rounded-full flex items-center justify-center opacity-0 group-hover/row:opacity-100 transition-opacity"
+                    >
+                        <ChevronLeft className="w-6 h-6 text-white" />
+                    </button>
+                )}
 
-            <div ref={rowRef} className="flex gap-2 overflow-x-auto scrollbar-hide pb-4">
-                {items.map((item, i) => (
-                    <MovieCard key={i} item={item} link={item.link} />
-                ))}
+                {/* Scrollable Content */}
+                <div
+                    ref={scrollRef}
+                    onScroll={handleScroll}
+                    className="flex gap-2 overflow-x-auto hide-scrollbar px-4 md:px-16 py-4"
+                >
+                    {items.map((item, index) => (
+                        'tags' in item ? (
+                            <MovieCard key={item.id || index} project={item} index={index} />
+                        ) : (
+                            <motion.div
+                                key={index}
+                                className="flex-shrink-0 w-64 md:w-72 aspect-video rounded-sm overflow-hidden relative group cursor-pointer"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                whileHover={{ scale: 1.05 }}
+                            >
+                                <img src={item.thumbnail} alt={item.title} className="w-full h-full object-cover" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+                                    <div>
+                                        <h3 className="text-white font-semibold">{item.title}</h3>
+                                        <span className="text-match-green text-sm">{item.match}% Match</span>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )
+                    ))}
+                </div>
+
+                {/* Right Arrow */}
+                {showRight && (
+                    <button
+                        onClick={() => scroll('right')}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 z-40 w-10 h-10 bg-black/80 rounded-full flex items-center justify-center opacity-0 group-hover/row:opacity-100 transition-opacity"
+                    >
+                        <ChevronRight className="w-6 h-6 text-white" />
+                    </button>
+                )}
             </div>
         </section>
     );
 };
 
+// Main Browse Component
 const Browse = () => {
     const { selectedProfile } = useUser();
     const navigate = useNavigate();
@@ -312,71 +407,51 @@ const Browse = () => {
 
     if (!selectedProfile) return null;
 
-    const dynamicRow = dynamicRows[selectedProfile];
-
     return (
-        <div className="min-h-screen bg-[#141414]">
+        <motion.div
+            className="min-h-screen bg-black"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
             <Navbar />
-            <HeroSection profile={selectedProfile} />
+            <Hero profile={selectedProfile} />
 
-            <div className="relative z-20 -mt-20" id="projects">
-                <ContentRow
-                    title="Trending Now: Projects"
-                    icon={Play}
-                    items={projects.map(p => ({
-                        title: p.title,
-                        image: p.image,
-                        link: p.link,
-                        match: p.match,
-                        tags: p.tags
-                    }))}
-                />
+            {/* Content Rows */}
+            <section id="projects" className="-mt-32 relative z-20 pb-8">
+                <ContentRow title="Trending Now: Projects" items={projects} icon={Play} />
+                <ContentRow title="Continue Exploring" items={[...projects].reverse()} />
+            </section>
 
-                <ContentRow
-                    title={dynamicRow.title}
-                    icon={dynamicRow.icon}
-                    items={dynamicRow.items}
-                />
+            <section id="education">
+                <ContentRow title="Education & Achievements" items={education} icon={GraduationCap} />
+            </section>
 
-                {/* Education Section - Netflix Card Style */}
-                <ContentRow
-                    title="Education & Achievements"
-                    icon={GraduationCap}
-                    items={[
-                        {
-                            title: "BMS Institute of Technology",
-                            image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=300&h=170&fit=crop",
-                            match: 99
-                        },
-                        {
-                            title: "B.E. Computer Science (2023-27)",
-                            image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=300&h=170&fit=crop",
-                            match: 97
-                        },
-                        {
-                            title: "CGPA: 8.85",
-                            image: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=300&h=170&fit=crop",
-                            match: 95
-                        },
-                        {
-                            title: "🏆 Code Red 2025 Finalist",
-                            image: "https://images.unsplash.com/photo-1567521464027-f127ff144326?w=300&h=170&fit=crop",
-                            match: 100
-                        },
-                        {
-                            title: "💻 LeetCode 150+ Solved",
-                            image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=300&h=170&fit=crop",
-                            match: 96
-                        }
-                    ]}
-                />
-            </div>
+            {/* Footer */}
+            <footer className="border-t border-gray-800 py-12 px-4 md:px-16">
+                <div className="max-w-6xl mx-auto">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+                        {/* Social Links */}
+                        <div className="flex items-center gap-6">
+                            <a href="https://github.com/HarshG2005" className="text-gray-500 hover:text-white transition-colors">
+                                <Github className="w-6 h-6" />
+                            </a>
+                            <a href="#" className="text-gray-500 hover:text-white transition-colors">
+                                <Linkedin className="w-6 h-6" />
+                            </a>
+                            <a href="#" className="text-gray-500 hover:text-white transition-colors">
+                                <Twitter className="w-6 h-6" />
+                            </a>
+                        </div>
 
-            <footer className="py-12 px-4 md:px-12 text-center text-gray-600 text-sm">
-                <p>Built with React, Tailwind & ❤️ by Harsh Goutam</p>
-                <p className="mt-2">&copy; {new Date().getFullYear()}</p>
+                        {/* Copyright */}
+                        <p className="text-gray-500 text-sm">
+                            © {new Date().getFullYear()} Harsh Goutam. Built with React & ❤️
+                        </p>
+                    </div>
+                </div>
             </footer>
-        </div>
+        </motion.div>
     );
 };
 

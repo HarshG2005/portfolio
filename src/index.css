@@ -1,26 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-/* Netflix-style base */
+/* Netflix-inspired dark theme */
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #141414;
+  --card-hover: #1a1a1a;
+  --muted: #333333;
+  --muted-foreground: #a3a3a3;
+  --primary: #E50914;
+  --primary-hover: #f40612;
+  --match-green: #46d369;
+  --border: #333333;
+
+  /* Persona colors */
+  --recruiter-glow: rgba(255, 255, 255, 0.4);
+  --developer-glow: rgba(46, 204, 113, 0.6);
+  --stalker-glow: rgba(229, 9, 20, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #141414;
-  color: #e5e5e5;
-  font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hide scrollbar for carousels */
-.scrollbar-hide {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+/* Hide scrollbar for content rows */
+.hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
+.hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
@@ -30,11 +62,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #141414;
+  background-color: var(--background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #333;
+  background-color: var(--muted);
   border-radius: 9999px;
 }
 
@@ -42,62 +74,88 @@ body {
   background-color: #555;
 }
 
-/* Glass Utility */
-.glass {
-  background-color: rgba(20, 20, 20, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+/* Text shadow for hero */
+.text-shadow-dramatic {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-.glass-hover:hover {
-  background-color: rgba(40, 40, 40, 0.8);
-  border-color: rgba(229, 9, 20, 0.3);
+/* Netflix button */
+.netflix-button {
+  background-color: var(--primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
 }
 
-/* Text gradient (Netflix Red) */
-.text-gradient {
-  background: linear-gradient(to right, #E50914, #ff6b6b);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.netflix-button:hover {
+  background-color: var(--primary-hover);
 }
 
-/* Netflix card hover delay effect */
-.card-hover {
-  transition: transform 0.3s ease-in-out 0.4s;
+/* Glow effects */
+.glow-white {
+  box-shadow: 0 0 30px var(--recruiter-glow);
 }
 
-.card-hover:hover {
-  transform: scale(1.1);
-  z-index: 10;
+.glow-green {
+  box-shadow: 0 0 30px var(--developer-glow);
 }
 
-/* Ken Burns slow zoom effect for hero backgrounds */
-@keyframes ken-burns {
-  0% {
+.glow-red {
+  box-shadow: 0 0 30px var(--stalker-glow);
+}
+
+/* Match green color */
+.text-match-green {
+  color: var(--match-green);
+}
+
+/* Card gradient */
+.card-gradient {
+  background: linear-gradient(to top, var(--card), transparent);
+}
+
+/* Hero gradients */
+.hero-gradient-right {
+  background: linear-gradient(to right, var(--background), rgba(0, 0, 0, 0.8) 30%, transparent 70%);
+}
+
+.hero-gradient-bottom {
+  background: linear-gradient(to top, var(--background), transparent 50%, rgba(0, 0, 0, 0.5));
+}
+
+/* Subtle pulse animation */
+@keyframes pulse-subtle {
+
+  0%,
+  100% {
     transform: scale(1);
   }
 
-  100% {
-    transform: scale(1.1);
-  }
-}
-
-.animate-ken-burns {
-  animation: ken-burns 20s ease-in-out infinite alternate;
-}
-
-/* Gradient shift animation for intro splash name */
-@keyframes gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-
   50% {
-    background-position: 100% 50%;
+    transform: scale(1.03);
   }
+}
 
-  100% {
-    background-position: 0% 50%;
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+/* Content row */
+.content-row {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 1rem 1rem 1rem 4rem;
+}
+
+@media (min-width: 768px) {
+  .content-row {
+    padding-left: 4rem;
+    padding-right: 4rem;
   }
 }
