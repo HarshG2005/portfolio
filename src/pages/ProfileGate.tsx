@@ -3,28 +3,25 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useUser, type ProfileType } from '../context/UserContext';
 
-// Profile avatars - fuzzy monster style matching reference
+// Profile avatars - fuzzy monster images
 const profiles = [
     {
         id: 'RECRUITER' as ProfileType,
         label: 'Recruiter',
-        // Blue fuzzy monster
-        image: 'https://api.dicebear.com/7.x/thumbs/svg?seed=recruiter&backgroundColor=3b82f6&shapeColor=1e3a5f',
+        image: '/avatar-recruiter.png',
         glowClass: 'group-hover:shadow-[0_0_30px_rgba(59,130,246,0.6)]',
         borderColor: 'group-hover:border-blue-500',
     },
     {
         id: 'DEVELOPER' as ProfileType,
         label: 'Developer',
-        // Gray fuzzy monster
-        image: 'https://api.dicebear.com/7.x/thumbs/svg?seed=developer&backgroundColor=6b7280&shapeColor=374151',
+        image: '/avatar-developer.png',
         glowClass: 'group-hover:shadow-[0_0_30px_rgba(107,114,128,0.6)]',
         borderColor: 'group-hover:border-gray-400',
     },
     {
         id: 'STALKER' as ProfileType,
         label: 'Stalker',
-        // Red fuzzy monster - using the uploaded image
         image: '/avatar-stalker.png',
         glowClass: 'group-hover:shadow-[0_0_30px_rgba(229,9,20,0.6)]',
         borderColor: 'group-hover:border-red-500',

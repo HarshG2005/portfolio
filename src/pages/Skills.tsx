@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Skill categories with icons (using emoji for simplicity)
+// Skill categories with red-themed icons
 const skillCategories = [
     {
         title: 'Frontend',
@@ -53,21 +54,36 @@ const skillCategories = [
     }
 ];
 
-const SkillCard = ({ skill, index }: { skill: { name: string; description: string; icon: string }; index: number }) => (
-    <motion.div
-        className="bg-[#1a1a1a] rounded-lg p-6 flex flex-col items-center text-center hover:bg-[#222] transition-colors cursor-pointer group"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.05 }}
-        whileHover={{ scale: 1.05 }}
-    >
-        <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">
-            {skill.icon}
-        </div>
-        <h3 className="text-white font-semibold mb-1">{skill.name}</h3>
-        <p className="text-gray-500 text-sm">{skill.description}</p>
-    </motion.div>
-);
+const SkillCard = ({ skill, index }: { skill: { name: string; description: string; icon: string }; index: number }) => {
+    const [isClicked, setIsClicked] = useState(false);
+
+    const handleClick = () => {
+        setIsClicked(true);
+        setTimeout(() => setIsClicked(false), 500);
+    };
+
+    return (
+        <motion.div
+            className={`bg-[#1a1a1a] rounded-lg p-6 flex flex-col items-center text-center 
+        hover:bg-[#222] transition-all duration-300 cursor-pointer group
+        border border-transparent hover:border-[#E50914]/50
+        ${isClicked ? 'shadow-[0_0_25px_rgba(229,9,20,0.6)]' : ''}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleClick}
+        >
+            <div className={`text-4xl mb-3 group-hover:scale-110 transition-transform
+        ${isClicked ? 'animate-pulse' : ''}`}>
+                {skill.icon}
+            </div>
+            <h3 className="text-[#E50914] font-semibold mb-1">{skill.name}</h3>
+            <p className="text-gray-500 text-sm">{skill.description}</p>
+        </motion.div>
+    );
+};
 
 const Skills = () => {
     return (
@@ -82,7 +98,7 @@ const Skills = () => {
                         <div className="hidden md:flex items-center gap-6">
                             <Link to="/browse" className="text-gray-400 hover:text-white transition-colors">Home</Link>
                             <Link to="/projects" className="text-gray-400 hover:text-white transition-colors">Projects</Link>
-                            <Link to="/skills" className="text-white font-semibold">Skills</Link>
+                            <Link to="/skills" className="text-[#E50914] font-semibold">Skills</Link>
                         </div>
                     </div>
                 </div>
@@ -99,7 +115,7 @@ const Skills = () => {
                         transition={{ delay: catIndex * 0.2 }}
                     >
                         <h2
-                            className="text-3xl md:text-4xl text-white text-center mb-8"
+                            className="text-3xl md:text-4xl text-center mb-8"
                             style={{ fontFamily: "'Bebas Neue', sans-serif" }}
                         >
                             <span className="text-[#E50914]">{category.title}</span>
