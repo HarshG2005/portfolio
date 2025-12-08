@@ -36,7 +36,6 @@ const LandingIntro = ({ onComplete }: LandingIntroProps) => {
                     style={{
                         fontFamily: "'Bebas Neue', 'Impact', sans-serif",
                         fontSize: '72px',
-                        fontWeight: 'bold',
                         letterSpacing: '0.05em'
                     }}
                 >
@@ -55,7 +54,6 @@ const LandingIntro = ({ onComplete }: LandingIntroProps) => {
                     style={{
                         fontFamily: "'Bebas Neue', 'Impact', sans-serif",
                         fontSize: '72px',
-                        fontWeight: 'bold',
                         letterSpacing: '0.05em',
                         filter: 'blur(4px)'
                     }}
