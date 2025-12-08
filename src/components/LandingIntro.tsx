@@ -8,74 +8,34 @@ const LandingIntro = ({ onComplete }: LandingIntroProps) => {
     return (
         <motion.div
             onClick={onComplete}
-            className="h-screen w-full bg-black flex flex-col items-center justify-center overflow-hidden cursor-pointer"
+            className="h-screen w-full bg-[#141414] flex flex-col items-center justify-center overflow-hidden cursor-pointer"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
         >
-            {/* Netflix-style curved SVG text */}
-            <motion.svg
-                viewBox="0 0 600 150"
-                className="w-[90vw] max-w-4xl h-auto"
-                initial={{ opacity: 0, scale: 0.8 }}
+            {/* Simple flat Netflix-style text */}
+            <motion.h1
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 2, ease: "easeOut" }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
+                className="text-5xl md:text-7xl lg:text-8xl uppercase select-none tracking-tight"
+                style={{
+                    fontFamily: "'Bebas Neue', 'Impact', sans-serif",
+                    color: '#E50914',
+                    letterSpacing: '0.02em'
+                }}
             >
-                {/* Define the curved path for text to follow */}
-                <defs>
-                    <path
-                        id="textCurve"
-                        d="M 30,120 Q 300,40 570,120"
-                        fill="transparent"
-                    />
-                </defs>
-
-                {/* Curved text following the path */}
-                <text
-                    fill="#E50914"
-                    style={{
-                        fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                        fontSize: '72px',
-                        letterSpacing: '0.05em'
-                    }}
-                >
-                    <textPath
-                        href="#textCurve"
-                        startOffset="50%"
-                        textAnchor="middle"
-                    >
-                        HARSH GOUTAM
-                    </textPath>
-                </text>
-
-                {/* Subtle shadow for depth */}
-                <text
-                    fill="rgba(229, 9, 20, 0.3)"
-                    style={{
-                        fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                        fontSize: '72px',
-                        letterSpacing: '0.05em',
-                        filter: 'blur(4px)'
-                    }}
-                >
-                    <textPath
-                        href="#textCurve"
-                        startOffset="50%"
-                        textAnchor="middle"
-                    >
-                        HARSH GOUTAM
-                    </textPath>
-                </text>
-            </motion.svg>
+                HARSH GOUTAM
+            </motion.h1>
 
             {/* Click hint */}
             <motion.p
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2, duration: 1 }}
-                className="mt-12 text-gray-500 text-sm tracking-widest uppercase"
+                animate={{ opacity: 0.5 }}
+                transition={{ delay: 1.5, duration: 1 }}
+                className="mt-8 text-gray-600 text-xs tracking-widest uppercase"
             >
-                Click anywhere to continue
+                Click to enter
             </motion.p>
         </motion.div>
     );
