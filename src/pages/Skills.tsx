@@ -1,61 +1,67 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import {
+    Code2, Database, Cloud, Cpu, Wrench,
+    Globe, FileCode, Server, Box, GitBranch,
+    Layers, Zap, Terminal, PenTool, Settings
+} from 'lucide-react';
 
-// Skill categories with red-themed icons
+// Skill categories with Lucide icons (rendered in red)
 const skillCategories = [
     {
         title: 'Frontend',
         skills: [
-            { name: 'React', description: 'UI Library', icon: '⚛️' },
-            { name: 'TypeScript', description: 'Type-Safe JS', icon: '📘' },
-            { name: 'Tailwind CSS', description: 'Utility-First CSS', icon: '🎨' },
-            { name: 'Next.js', description: 'React Framework', icon: '▲' },
-            { name: 'Framer Motion', description: 'Animations', icon: '✨' },
+            { name: 'React', description: 'UI Library', Icon: Code2 },
+            { name: 'TypeScript', description: 'Type-Safe JS', Icon: FileCode },
+            { name: 'Tailwind CSS', description: 'Utility-First CSS', Icon: PenTool },
+            { name: 'Next.js', description: 'React Framework', Icon: Globe },
+            { name: 'Framer Motion', description: 'Animations', Icon: Zap },
         ]
     },
     {
         title: 'Backend',
         skills: [
-            { name: 'Node.js', description: 'JS Runtime', icon: '🟢' },
-            { name: 'Python', description: 'Programming Language', icon: '🐍' },
-            { name: 'FastAPI', description: 'Python API Framework', icon: '⚡' },
-            { name: 'Express', description: 'Node Framework', icon: '🚂' },
-            { name: 'PostgreSQL', description: 'Relational Database', icon: '🐘' },
+            { name: 'Node.js', description: 'JS Runtime', Icon: Server },
+            { name: 'Python', description: 'Programming Language', Icon: Terminal },
+            { name: 'FastAPI', description: 'Python API Framework', Icon: Zap },
+            { name: 'Express', description: 'Node Framework', Icon: Layers },
+            { name: 'PostgreSQL', description: 'Relational Database', Icon: Database },
         ]
     },
     {
         title: 'Cloud & DevOps',
         skills: [
-            { name: 'Git', description: 'Version Control', icon: '📦' },
-            { name: 'Docker', description: 'Containerization', icon: '🐳' },
-            { name: 'Vercel', description: 'Deployment Platform', icon: '▲' },
-            { name: 'Railway', description: 'Cloud Platform', icon: '🚂' },
-            { name: 'GitHub Actions', description: 'CI/CD', icon: '🔄' },
+            { name: 'Git', description: 'Version Control', Icon: GitBranch },
+            { name: 'Docker', description: 'Containerization', Icon: Box },
+            { name: 'Vercel', description: 'Deployment Platform', Icon: Cloud },
+            { name: 'Railway', description: 'Cloud Platform', Icon: Cloud },
+            { name: 'GitHub Actions', description: 'CI/CD', Icon: Settings },
         ]
     },
     {
         title: 'AI & ML',
         skills: [
-            { name: 'Gemini AI', description: 'Google AI API', icon: '💎' },
-            { name: 'OpenAI', description: 'GPT APIs', icon: '🤖' },
-            { name: 'LangChain', description: 'LLM Framework', icon: '🔗' },
-            { name: 'OpenCV', description: 'Computer Vision', icon: '👁️' },
+            { name: 'Gemini AI', description: 'Google AI API', Icon: Cpu },
+            { name: 'OpenAI', description: 'GPT APIs', Icon: Cpu },
+            { name: 'LangChain', description: 'LLM Framework', Icon: Layers },
+            { name: 'OpenCV', description: 'Computer Vision', Icon: Cpu },
         ]
     },
     {
         title: 'Tools & Others',
         skills: [
-            { name: 'VS Code', description: 'Code Editor', icon: '💻' },
-            { name: 'Figma', description: 'UI Design', icon: '🎨' },
-            { name: 'Postman', description: 'API Testing', icon: '📬' },
-            { name: 'Linux', description: 'Operating System', icon: '🐧' },
+            { name: 'VS Code', description: 'Code Editor', Icon: Code2 },
+            { name: 'Figma', description: 'UI Design', Icon: PenTool },
+            { name: 'Postman', description: 'API Testing', Icon: Wrench },
+            { name: 'Linux', description: 'Operating System', Icon: Terminal },
         ]
     }
 ];
 
-const SkillCard = ({ skill, index }: { skill: { name: string; description: string; icon: string }; index: number }) => {
+const SkillCard = ({ skill, index }: { skill: { name: string; description: string; Icon: typeof Code2 }; index: number }) => {
     const [isClicked, setIsClicked] = useState(false);
+    const { Icon } = skill;
 
     const handleClick = () => {
         setIsClicked(true);
@@ -75,11 +81,10 @@ const SkillCard = ({ skill, index }: { skill: { name: string; description: strin
             whileTap={{ scale: 0.95 }}
             onClick={handleClick}
         >
-            <div className={`text-4xl mb-3 group-hover:scale-110 transition-transform
-        ${isClicked ? 'animate-pulse' : ''}`}>
-                {skill.icon}
+            <div className={`mb-3 group-hover:scale-110 transition-transform ${isClicked ? 'animate-pulse' : ''}`}>
+                <Icon className="w-10 h-10 text-[#E50914]" strokeWidth={1.5} />
             </div>
-            <h3 className="text-[#E50914] font-semibold mb-1">{skill.name}</h3>
+            <h3 className="text-white font-semibold mb-1">{skill.name}</h3>
             <p className="text-gray-500 text-sm">{skill.description}</p>
         </motion.div>
     );
