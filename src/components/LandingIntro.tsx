@@ -8,7 +8,7 @@ const LandingIntro = ({ onComplete }: LandingIntroProps) => {
     return (
         <motion.div
             onClick={onComplete}
-            className="h-screen w-full bg-[#141414] flex flex-col items-center justify-center overflow-hidden cursor-pointer"
+            className="h-screen w-full bg-black flex flex-col items-center justify-center overflow-hidden cursor-pointer"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
