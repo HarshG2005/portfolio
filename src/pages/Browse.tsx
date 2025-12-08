@@ -118,9 +118,9 @@ const Navbar = () => {
                         HG
                     </Link>
                     <div className="hidden md:flex items-center gap-6">
-                        <a href="#" className="text-white hover:text-gray-300 transition-colors">Home</a>
-                        <a href="#projects" className="text-gray-400 hover:text-white transition-colors">Projects</a>
-                        <a href="#education" className="text-gray-400 hover:text-white transition-colors">Education</a>
+                        <Link to="/browse" className="text-white hover:text-gray-300 transition-colors">Home</Link>
+                        <Link to="/projects" className="text-gray-400 hover:text-white transition-colors">Projects</Link>
+                        <Link to="/skills" className="text-gray-400 hover:text-white transition-colors">Skills</Link>
                     </div>
                 </div>
                 <button
@@ -418,7 +418,7 @@ const Browse = () => {
             <Hero profile={selectedProfile} />
 
             {/* Content Rows */}
-            <section id="projects" className="-mt-32 relative z-20 pb-8">
+            <section id="projects" className="-mt-16 relative z-20 pb-8 pt-8">
                 <ContentRow title="Trending Now: Projects" items={projects} icon={Play} />
                 <ContentRow title="Continue Exploring" items={[...projects].reverse()} />
             </section>
